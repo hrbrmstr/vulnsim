@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vulns</title>
+<script type="text/javascript" src="js/d3.v4.js"></script>
+<script type="text/javascript" src="js/container-force.js"></script>
+<link type="text/css" rel="stylesheet" href="css/vis.css"/>
+</head>
+<body>
+
+<div id="visdiv">
+</div>
+
+<script type="text/javascript">
+
+var width=1024, height=768;
+var left_width = 100, left_height = height;
+var header_width = width, header_height = 100;
+
+var div = d3.select("#visdiv");
+var svg = div.append("svg").attr("width", width).attr("height", height);
+
+var left_labs_ct = 5;
+var left_labs_text = [ "Foreign Language", "OSS", "Medical Devices", "ICS", "'Enterprise'"];
+var left_labs = svg.selectAll(".leftlabs").data(left_labs_text).enter().append("text");
+
+left_labs.attr("x", 1)
+         .attr("y", (d, i) => ((i)*(height/left_labs_ct))+header_height )
+         .attr("class", "leftlab")
+         .text(d => d)
+
+var top_labs_ct = 4;
+var top_labs_dat = [ { lab:"Undiscovered Country", v:"hidden" },
+                     { lab:"All Known", v:"hidden" },
+                     { lab:"VulnDB/OSVDB", v:"hidden" },
+                     { lab:"CVE", v:"visible" } ];
+var top_labs = svg.selectAll(".toplabs").data(top_labs_dat).enter().append("text");
+
+top_labs.attr("y", 10)
+        .attr("x", (d, i) => ((i)*(width/top_labs_ct))+left_width )
+        .attr("class", "toplab")
+        .attr("visibility", d => d.v)
+        .text(d => d.lab)
+
+var cvss_nodes = [ { score:'5-6', v:'visible' },{ score:'5-6', v:'visible' },{ score:'4-5', v:'visible' },{ score:'9-10', v:'visible' },{ score:'4-5', v:'visible' },{ score:'2-3', v:'visible' },{ score:'7-8', v:'visible' },{ score:'7-8', v:'visible' },{ score:'5-6', v:'visible' },{ score:'6-7', v:'visible' },{ score:'9-10', v:'visible' },{ score:'9-10', v:'visible' },{ score:'5-6', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'7-8', v:'visible' },{ score:'4-5', v:'visible' },{ score:'6-7', v:'visible' },{ score:'6-7', v:'visible' },{ score:'4-5', v:'visible' },{ score:'5-6', v:'visible' },{ score:'7-8', v:'visible' },{ score:'6-7', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'5-6', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'4-5', v:'visible' },{ score:'9-10', v:'visible' },{ score:'9-10', v:'visible' },{ score:'5-6', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'5-6', v:'visible' },{ score:'7-8', v:'visible' },{ score:'5-6', v:'visible' },{ score:'2-3', v:'visible' },{ score:'5-6', v:'visible' },{ score:'4-5', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'6-7', v:'visible' },{ score:'9-10', v:'visible' },{ score:'5-6', v:'visible' },{ score:'6-7', v:'visible' },{ score:'5-6', v:'visible' },{ score:'7-8', v:'visible' },{ score:'7-8', v:'visible' },{ score:'5-6', v:'visible' },{ score:'9-10', v:'visible' },{ score:'4-5', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'2-3', v:'visible' },{ score:'9-10', v:'visible' },{ score:'5-6', v:'visible' },{ score:'9-10', v:'visible' },{ score:'4-5', v:'visible' },{ score:'6-7', v:'visible' },{ score:'0-1', v:'visible' },{ score:'4-5', v:'visible' },{ score:'4-5', v:'visible' },{ score:'5-6', v:'visible' },{ score:'6-7', v:'visible' },{ score:'7-8', v:'visible' },{ score:'9-10', v:'visible' },{ score:'9-10', v:'visible' },{ score:'5-6', v:'visible' },{ score:'5-6', v:'visible' },{ score:'2-3', v:'visible' },{ score:'5-6', v:'visible' },{ score:'8-9', v:'visible' },{ score:'4-5', v:'visible' },{ score:'6-7', v:'visible' },{ score:'7-8', v:'visible' },{ score:'7-8', v:'visible' },{ score:'6-7', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'6-7', v:'visible' },{ score:'5-6', v:'visible' },{ score:'9-10', v:'visible' },{ score:'1-2', v:'visible' },{ score:'4-5', v:'visible' },{ score:'7-8', v:'visible' },{ score:'9-10', v:'visible' },{ score:'5-6', v:'visible' },{ score:'2-3', v:'visible' },{ score:'1-2', v:'visible' },{ score:'7-8', v:'visible' },{ score:'6-7', v:'visible' },{ score:'2-3', v:'visible' },{ score:'5-6', v:'visible' },{ score:'5-6', v:'visible' },{ score:'6-7', v:'visible' },{ score:'5-6', v:'visible' },{ score:'6-7', v:'visible' },{ score:'4-5', v:'visible' },{ score:'7-8', v:'visible' } ];
+
+var simulation = d3.forceSimulation()
+                   .force("collide", d3.forceCollide(10))
+                   .force("center", d3.forceCenter(600, 600))
+                   .force("y", d3.forceY(0))
+                   .force("x", d3.forceX(0))
+                   .force("container", d3.forceContainer([[10, 10], [500, 50]]));
+
+var node = svg.append("g")
+              .attr("class", "nodes")
+              .selectAll("circle")
+              .data(cvss_nodes)
+              .enter().append("circle")
+              .attr('stroke', "black")
+              .attr('fill', "white")
+              .attr("r", 5);
+
+var ticked = function() { node.attr("cx", d => d.x).attr("cy", d => d.y); }
+
+simulation.nodes(cvss_nodes).on("tick", ticked);
+
+</script>
+
+</body>
+</html>

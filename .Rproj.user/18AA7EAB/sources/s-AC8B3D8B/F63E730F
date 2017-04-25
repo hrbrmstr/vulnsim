@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1493115495334.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "F63E730F",
+    "lastKnownWriteTime" : 1493135457,
+    "last_content_update" : 1493135457281,
+    "path" : "~/Development/vulns/js/app.js",
+    "project_path" : "js/app.js",
+    "properties" : {
+        "cursorPosition" : "61,20",
+        "scrollLine" : "33",
+        "tempName" : "Untitled3"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "js"
+}

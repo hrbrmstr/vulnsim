@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1493113819365.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "90F4C748",
+    "lastKnownWriteTime" : 1493130403,
+    "last_content_update" : 1493130403685,
+    "path" : "~/Development/vulns/test.html",
+    "project_path" : "test.html",
+    "properties" : {
+        "cursorPosition" : "13,19",
+        "scrollLine" : "0",
+        "tempName" : "Untitled3"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "html"
+}

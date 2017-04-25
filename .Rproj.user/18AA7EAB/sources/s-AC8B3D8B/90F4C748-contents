@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vulns</title>
+<script type="text/javascript" src="js/d3.v4.js"></script>
+<script type="text/javascript" src="js/container-force.js"></script>
+<script type="text/javascript" src="js/dimple.v2.3.0.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900,900i"/>
+<link rel="stylesheet" href="css/vis.css"/>
+</head>
+<body>
+
+<div id="universe">
+  <div id="buffer">
+    <center><div style="padding-top:20px;"><input id="justcrit" style="padding-right:2px" type="checkbox" value="unchecked"/><label for="justcrit">Just critical (9-10)</label></div></center>
+  </div>
+  <div id="cats">
+    <div id="unknown"><span class="cat-title">Unknown</span><div id="all"><span class="cat-title">All Known</span><div id="vulndb"><span class="cat-title">VulnDB/OSVDB</span><div id="cve"><span class="cat-title">CVE</span></div></div></div></div>
+  </div>
+</div>
+
+<div id="container">
+  <div id="left">
+    <div id="foreign"><h3 class="ch3">Foreign Language</h3></div>
+    <div id="foss"><h3 class="ch3">OSS</h3></div>
+    <div id="medical"><h3 class="ch3">Medical Devices</h3></div>
+    <div id="ics"><h3 class="ch3">ICS</h3></div>
+    <div id="enterprise"><h3 class="ch3">Enterprise</h3></div>
+  </div>
+  <div id="right">
+    <div id="vis"></div>
+  </div>
+</div>
+
+<script type="text/javascript" src="js/app.js"></script>
+
+</body>
+</html>
