@@ -2,7 +2,7 @@
 var unknown, known, vulndb, cve;
 var unknown_extract, known_extract, vulndb_extract, cve_extract;
 
-var sel_back = "#bcbddc";
+var sel_back = "#a6cee3";
 var curr_sel = "cve";
 
 function sel_unknown(d, i) {
