@@ -5,67 +5,60 @@
 <title>Vulns</title>
 <script type="text/javascript" src="js/d3.v4.js"></script>
 <script type="text/javascript" src="js/container-force.js"></script>
-<link type="text/css" rel="stylesheet" href="css/vis.css"/>
+<script type="text/javascript" src="js/dimple.v2.3.0.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900,900i"/>
+<link rel="stylesheet" href="css/vis.css"/>
 </head>
 <body>
 
-<div id="visdiv">
+<div id="universe">
+  <div id="buffer">
+    <center><div style="padding-top:20px;"><input id="justcrit" style="padding-right:2px" type="checkbox" value="unchecked"/><label for="justcrit">Just critical (9-10)</label></div></center>
+  </div>
+  <div id="cats">
+    <div id="unknown"><span class="cat-title">Unknown</span><div id="all"><span class="cat-title">All Known</span><div id="vulndb"><span class="cat-title">VulnDB/OSVDB</span><div id="cve"><span class="cat-title">CVE</span></div></div></div></div>
+  </div>
 </div>
 
-<script type="text/javascript">
+<div id="container">
+  <div id="left">
+    <div id="foreign">
+      <h3 class="ch3">Foreign Language Coverage</h3>
+      <svg width="190" height="85" id="f_svg">
+        <!-- g transform="translate(1,1)"></g -->
+      </svg>
+    </div>
+    <div id="foss">
+      <h3 class="ch3">OSS/Library Coverage</h3>
+      <svg width="190" height="85" id="o_svg">
+        <!-- g transform="translate(1,1)"></g -->
+      </svg>
+    </div>
+    <div id="medical">
+      <h3 class="ch3">Medical Devices Coverage</h3>
+      <svg width="190" height="85" id="m_svg">
+        <!-- g transform="translate(1,1)"></g -->
+      </svg>
+    </div>
+    <div id="ics">
+      <h3 class="ch3">ICS Coverage</h3>
+      <svg width="190" height="85" id="i_svg">
+        <!-- g transform="translate(1,1)"></g -->
+        </svg>
+    </div>
+    <div id="enterprise">
+      <h3 class="ch3">Enterprise Coverage</h3>
+      <svg width="190" height="85" id="e_svg">
+        <!-- g transform="translate(1,1)"></g -->
+      </svg>
+    </div>
+  </div>
+  <div id="right">
+    <div id="vis"></div>
+  </div>
+</div>
 
-var width=1024, height=768;
-var left_width = 100, left_height = height;
-var header_width = width, header_height = 100;
-
-var div = d3.select("#visdiv");
-var svg = div.append("svg").attr("width", width).attr("height", height);
-
-var left_labs_ct = 5;
-var left_labs_text = [ "Foreign Language", "OSS", "Medical Devices", "ICS", "'Enterprise'"];
-var left_labs = svg.selectAll(".leftlabs").data(left_labs_text).enter().append("text");
-
-left_labs.attr("x", 1)
-         .attr("y", (d, i) => ((i)*(height/left_labs_ct))+header_height )
-         .attr("class", "leftlab")
-         .text(d => d)
-
-var top_labs_ct = 4;
-var top_labs_dat = [ { lab:"Undiscovered Country", v:"hidden" },
-                     { lab:"All Known", v:"hidden" },
-                     { lab:"VulnDB/OSVDB", v:"hidden" },
-                     { lab:"CVE", v:"visible" } ];
-var top_labs = svg.selectAll(".toplabs").data(top_labs_dat).enter().append("text");
-
-top_labs.attr("y", 10)
-        .attr("x", (d, i) => ((i)*(width/top_labs_ct))+left_width )
-        .attr("class", "toplab")
-        .attr("visibility", d => d.v)
-        .text(d => d.lab)
-
-var cvss_nodes = [ { score:'5-6', v:'visible' },{ score:'5-6', v:'visible' },{ score:'4-5', v:'visible' },{ score:'9-10', v:'visible' },{ score:'4-5', v:'visible' },{ score:'2-3', v:'visible' },{ score:'7-8', v:'visible' },{ score:'7-8', v:'visible' },{ score:'5-6', v:'visible' },{ score:'6-7', v:'visible' },{ score:'9-10', v:'visible' },{ score:'9-10', v:'visible' },{ score:'5-6', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'7-8', v:'visible' },{ score:'4-5', v:'visible' },{ score:'6-7', v:'visible' },{ score:'6-7', v:'visible' },{ score:'4-5', v:'visible' },{ score:'5-6', v:'visible' },{ score:'7-8', v:'visible' },{ score:'6-7', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'5-6', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'4-5', v:'visible' },{ score:'9-10', v:'visible' },{ score:'9-10', v:'visible' },{ score:'5-6', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'5-6', v:'visible' },{ score:'7-8', v:'visible' },{ score:'5-6', v:'visible' },{ score:'2-3', v:'visible' },{ score:'5-6', v:'visible' },{ score:'4-5', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'6-7', v:'visible' },{ score:'9-10', v:'visible' },{ score:'5-6', v:'visible' },{ score:'6-7', v:'visible' },{ score:'5-6', v:'visible' },{ score:'7-8', v:'visible' },{ score:'7-8', v:'visible' },{ score:'5-6', v:'visible' },{ score:'9-10', v:'visible' },{ score:'4-5', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'2-3', v:'visible' },{ score:'9-10', v:'visible' },{ score:'5-6', v:'visible' },{ score:'9-10', v:'visible' },{ score:'4-5', v:'visible' },{ score:'6-7', v:'visible' },{ score:'0-1', v:'visible' },{ score:'4-5', v:'visible' },{ score:'4-5', v:'visible' },{ score:'5-6', v:'visible' },{ score:'6-7', v:'visible' },{ score:'7-8', v:'visible' },{ score:'9-10', v:'visible' },{ score:'9-10', v:'visible' },{ score:'5-6', v:'visible' },{ score:'5-6', v:'visible' },{ score:'2-3', v:'visible' },{ score:'5-6', v:'visible' },{ score:'8-9', v:'visible' },{ score:'4-5', v:'visible' },{ score:'6-7', v:'visible' },{ score:'7-8', v:'visible' },{ score:'7-8', v:'visible' },{ score:'6-7', v:'visible' },{ score:'9-10', v:'visible' },{ score:'7-8', v:'visible' },{ score:'6-7', v:'visible' },{ score:'5-6', v:'visible' },{ score:'9-10', v:'visible' },{ score:'1-2', v:'visible' },{ score:'4-5', v:'visible' },{ score:'7-8', v:'visible' },{ score:'9-10', v:'visible' },{ score:'5-6', v:'visible' },{ score:'2-3', v:'visible' },{ score:'1-2', v:'visible' },{ score:'7-8', v:'visible' },{ score:'6-7', v:'visible' },{ score:'2-3', v:'visible' },{ score:'5-6', v:'visible' },{ score:'5-6', v:'visible' },{ score:'6-7', v:'visible' },{ score:'5-6', v:'visible' },{ score:'6-7', v:'visible' },{ score:'4-5', v:'visible' },{ score:'7-8', v:'visible' } ];
-
-var simulation = d3.forceSimulation()
-                   .force("collide", d3.forceCollide(10))
-                   .force("center", d3.forceCenter(600, 600))
-                   .force("y", d3.forceY(0))
-                   .force("x", d3.forceX(0))
-                   .force("container", d3.forceContainer([[10, 10], [500, 50]]));
-
-var node = svg.append("g")
-              .attr("class", "nodes")
-              .selectAll("circle")
-              .data(cvss_nodes)
-              .enter().append("circle")
-              .attr('stroke', "black")
-              .attr('fill', "white")
-              .attr("r", 5);
-
-var ticked = function() { node.attr("cx", d => d.x).attr("cy", d => d.y); }
-
-simulation.nodes(cvss_nodes).on("tick", ticked);
-
-</script>
+<script type="text/javascript" src="js/app.js"></script>
 
 </body>
 </html>
