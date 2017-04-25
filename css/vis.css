@@ -27,7 +27,7 @@ html, body, div, p, span, text {
   border:0 !important;
   text-align:center;
   height: 100%;
-  width:205px;
+  width: 205px;
 }
 
 .cat-title {
@@ -128,7 +128,7 @@ html, body, div, p, span, text {
   order: 4;
   width: 200px;
 }
-#right { border: 0.5px solid #b2b2b2 display: flex; flex-direction: row; order: 2; }
+#right { display: flex; flex-direction: row; order: 2; }
 #vis {
   border: 0.1px solid #b2b2b2;
   order: 1;
@@ -137,3 +137,7 @@ html, body, div, p, span, text {
   height:600px;
 }
 
+#left * svg {
+  margin-top:3px;
+  margin-left:5px;
+}
