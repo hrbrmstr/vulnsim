@@ -1,3 +1,4 @@
+var comma = d3.format(",");
 
 var unknown, known, vulndb, cve;
 var unknown_extract, known_extract, vulndb_extract, cve_extract;
@@ -97,15 +98,6 @@ function updateBars() {
   var ics_df = dat.ics;
   var med_df = dat.medical;
 
-//  if (just_crit.property("checked")) {
-//    ent_df = ent_df.filter(d => d.score == '9-10');
-//    for_df = for_df.filter(d => d.score == '9-10');
-//    oss_df = oss_df.filter(d => d.score == '9-10');
-//    ics_df = ics_df.filter(d => d.score == '9-10');
-//    med_df = med_df.filter(d => d.score == '9-10');
-//    x1 = x.domain(['9-10']);
-//  }
-
   var e1 = e_svg.selectAll(".bar").data(ent_df);
   var f1 = f_svg.selectAll(".bar").data(for_df);
   var o1 = o_svg.selectAll(".bar").data(oss_df);
@@ -117,7 +109,7 @@ function updateBars() {
     .attr("width", x1.bandwidth())
     .attr("y", d => y1(d.n))
     .attr("fill", d => scale_fill_score(d.score))
-    .attr("height", d => (height - y1(d.n)));
+    .attr("height", d => (bars_height - y1(d.n)));
 
   e1.enter().append("rect")
     .attr("class", "bar")
@@ -125,14 +117,14 @@ function updateBars() {
     .attr("width", x1.bandwidth())
     .attr("y", d => y1(d.n))
     .attr("fill", d => scale_fill_score(d.score))
-    .attr("height", d => (height - y1(d.n)));
+    .attr("height", d => (bars_height - y1(d.n)));
 
   f1.attr("class", "bar")
     .attr("x", d => x1(d.score))
     .attr("width", x1.bandwidth())
     .attr("y", d => y1(d.n))
     .attr("fill", d => scale_fill_score(d.score))
-    .attr("height", d => (height - y1(d.n)));
+    .attr("height", d => (bars_height - y1(d.n)));
 
   f1.enter().append("rect")
     .attr("class", "bar")
@@ -140,14 +132,14 @@ function updateBars() {
     .attr("width", x.bandwidth())
     .attr("y", d => y1(d.n))
     .attr("fill", d => scale_fill_score(d.score))
-    .attr("height", d => (height - y1(d.n)));
+    .attr("height", d => (bars_height - y1(d.n)));
 
   o1.attr("class", "bar")
     .attr("x", d => x1(d.score))
     .attr("width", x1.bandwidth())
     .attr("y", d => y1(d.n))
     .attr("fill", d => scale_fill_score(d.score))
-    .attr("height", d => (height - y1(d.n)));
+    .attr("height", d => (bars_height - y1(d.n)));
 
   o1.enter().append("rect")
     .attr("class", "bar")
@@ -155,14 +147,14 @@ function updateBars() {
     .attr("width", x1.bandwidth())
     .attr("y", d => y1(d.n))
     .attr("fill", d => scale_fill_score(d.score))
-    .attr("height", d => (height - y1(d.n)));
+    .attr("height", d => (bars_height - y1(d.n)));
 
   m1.attr("class", "bar")
     .attr("x", d => x1(d.score))
     .attr("width", x1.bandwidth())
     .attr("y", d => y1(d.n))
     .attr("fill", d => scale_fill_score(d.score))
-    .attr("height", d => (height - y1(d.n)));
+    .attr("height", d => (bars_height - y1(d.n)));
 
   m1.enter().append("rect")
     .attr("class", "bar")
@@ -170,14 +162,14 @@ function updateBars() {
     .attr("width", x1.bandwidth())
     .attr("y", d => y1(d.n))
     .attr("fill", d => scale_fill_score(d.score))
-    .attr("height", d => (height - y1(d.n)));
+    .attr("height", d => (bars_height - y1(d.n)));
 
   i1.attr("class", "bar")
     .attr("x", d => x1(d.score))
     .attr("width", x1.bandwidth())
     .attr("y", d => y1(d.n))
     .attr("fill", d => scale_fill_score(d.score))
-    .attr("height", d => (height - y1(d.n)));
+    .attr("height", d => (bars_height - y1(d.n)));
 
   i1.enter().append("rect")
     .attr("class", "bar")
@@ -185,13 +177,19 @@ function updateBars() {
     .attr("width", x1.bandwidth())
     .attr("y", d => y1(d.n))
     .attr("fill", d => scale_fill_score(d.score))
-    .attr("height", d => (height - y1(d.n)));
+    .attr("height", d => (bars_height - y1(d.n)));
 
-//  e1.remove();
-//  f1.remove();
-//  o1.remove();
-//  m1.remove();
-//  i1.remove();
+  var ent_tot = comma(d3.sum(d3.values(ent_df).map(d=>d.n)));
+  var for_tot = comma(d3.sum(d3.values(for_df).map(d=>d.n)));
+  var oss_tot = comma(d3.sum(d3.values(oss_df).map(d=>d.n)));
+  var ics_tot = comma(d3.sum(d3.values(ics_df).map(d=>d.n)));
+  var med_tot = comma(d3.sum(d3.values(med_df).map(d=>d.n)));
+
+  e2 = d3.select("#ent_ct").text(ent_tot);
+  f2 = d3.select("#for_ct").text(for_tot);
+  o2 = d3.select("#oss_ct").text(oss_tot);
+  i2 = d3.select("#ics_ct").text(ics_tot);
+  m2 = d3.select("#med_ct").text(med_tot);
 
 }
 
