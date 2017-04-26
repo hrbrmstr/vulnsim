@@ -62,6 +62,13 @@ var just_crit = d3.select("#justcrit").on("change", justCrit);
 var width=800, height=600;
 var div = d3.select("#vis");
 var svg = div.append("svg").attr("width", width).attr("height", height);
+
+var scale_fill_ghost = d3.scaleOrdinal()
+                         .domain(['0-1', '1-2', '2-3', '3-4', '4-5',
+                                  '5-6', '6-7', '7-8', '8-9', '9-10'])
+                         .range(["#bbbbbb", "#bbbbbb", "#bbbbbb", "#bbbbbb", "#bbbbbb",
+                                 "#bbbbbb", "#bbbbbb", "#bbbbbb", "#bbbbbb", "#ff0201"]);
+
 var scale_fill_score = d3.scaleOrdinal()
                          .domain(['0-1', '1-2', '2-3', '3-4', '4-5',
                                   '5-6', '6-7', '7-8', '8-9', '9-10'])
@@ -255,8 +262,12 @@ function updateSim(vuln_nodes) {
   simulation.restart();
 
   var vis_nodes = vuln_nodes;
-  if (just_crit.property("checked")) vis_nodes = vis_nodes.filter(d => d.s == '9-10');
   vis_nodes = vis_nodes.sort((a, b) => a.s.localeCompare(b.s));
+
+  var bar_scale = scale_fill_score;
+  var bar_opac = 1;
+  if (just_crit.property("checked")) bar_scale = scale_fill_ghost;
+  if (just_crit.property("checked")) bar_opac = 0.25;
 
   node_g.transition(t).attr('opacity', 0).on('end', function() {
 
@@ -270,9 +281,9 @@ function updateSim(vuln_nodes) {
     node = node_g.selectAll("circle").data(vis_nodes).enter().append("circle")
          .attr('stroke', "#b2b2b2")
          .attr('stroke-width', 1)
-         .attr('fill', d => scale_fill_score(d.s))
+         .attr('fill', d => bar_scale(d.s))
          .attr("opacity", 1)
-         .attr('fill-opacity', 1)
+         .attr('fill-opacity', d => (d.s == '9-10' ? 1 : bar_opac))
          .attr("r", 7)
          .merge(node);
 
@@ -337,13 +348,13 @@ function startSim(error, unknown_d, known_d, vulndb_d, cve_d, u_e, k_e, v_e, c_e
 }
 
 d3.queue()
-  .defer(d3.json, "json/unknown.json")
-  .defer(d3.json, "json/all.json")
-  .defer(d3.json, "json/vulndb.json")
-  .defer(d3.json, "json/cve.json")
-  .defer(d3.json, "json/unknown_extract.json")
-  .defer(d3.json, "json/all_extract.json")
-  .defer(d3.json, "json/vulndb_extract.json")
-  .defer(d3.json, "json/cve_extract.json")
+  .defer(d3.json, "json/unknown_8060.json")
+  .defer(d3.json, "json/all_8060.json")
+  .defer(d3.json, "json/vulndb_8060.json")
+  .defer(d3.json, "json/cve_8060.json")
+  .defer(d3.json, "json/unknown_extract_8060.json")
+  .defer(d3.json, "json/all_extract_8060.json")
+  .defer(d3.json, "json/vulndb_extract_8060.json")
+  .defer(d3.json, "json/cve_extract_8060.json")
   .await(startSim);
 

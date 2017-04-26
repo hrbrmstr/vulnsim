@@ -43,16 +43,18 @@ make_parts <- function(vec, nam) {
 
   list(
     foreign=foreign, oss=oss, medical=medical, ics=ics, enterprise=enterprise, max_val=max_val
-  ) %>% toJSON() %>% cat(sep="", file=sprintf("json/%s_extract.json", nam))
+  ) %>% toJSON() %>% cat(sep="", file=sprintf("json/%s_extract_8060.json", nam))
 
 }
+
+n <-  1000
 
 set.seed(1492)
 unknown <- sample(cvss_df$cvss_score, n*3, replace=TRUE, prob=cvss_df$pct)
 sort(unknown) %>%
   sprintf('{ "s":"%s" }', .) %>%
   paste0(collapse=", ") %>%
-  sprintf("[ %s ]", .) %>% write_lines("json/unknown.json")
+  sprintf("[ %s ]", .) %>% write_lines("json/unknown_8060.json")
 make_parts(unknown, "unknown")
 
 set.seed(1492)
@@ -60,24 +62,24 @@ known <- sample(cvss_df$cvss_score, n, replace=TRUE, prob=cvss_df$pct)
 sort(known) %>%
   sprintf('{ "s":"%s" }', .) %>%
   paste0(collapse=", ") %>%
-  sprintf("[ %s ]", .) %>% write_lines("json/all.json")
+  sprintf("[ %s ]", .) %>% write_lines("json/all_8060.json")
 make_parts(known, "all")
 
 set.seed(1492)
-# vulndb <- sample(cvss_df$cvss_score, n*0.6, replace=TRUE, prob=cvss_df$pct)
-vulndb <- sample(known, length(known)*0.6, replace=FALSE)
+# vulndb <- sample(cvss_df$cvss_score, n*0.8, replace=TRUE, prob=cvss_df$pct)
+vulndb <- sample(known, length(known)*0.8, replace=FALSE)
 sort(vulndb) %>%
   sprintf('{ "s":"%s" }', .) %>%
   paste0(collapse=", ") %>%
-  sprintf("[ %s ]", .) %>% write_lines("json/vulndb.json")
+  sprintf("[ %s ]", .) %>% write_lines("json/vulndb_8060.json")
 make_parts(vulndb, "vulndb")
 
 set.seed(1492)
-# cve <- sample(cvss_df$cvss_score, n*0.2, replace=TRUE, prob=cvss_df$pct)
-cve <- sample(vulndb, length(vulndb)*0.2, replace=FALSE)
+# cve <- sample(cvss_df$cvss_score, n*0.6, replace=TRUE, prob=cvss_df$pct)
+cve <- sample(vulndb, length(vulndb)*0.6, replace=FALSE)
 sort(cve) %>%
   sprintf('{ "s":"%s" }', .) %>%
   paste0(collapse=", ") %>%
-  sprintf("[ %s ]", .) %>% write_lines("json/cve.json")
+  sprintf("[ %s ]", .) %>% write_lines("json/cve_8060.json")
 make_parts(cve, "cve")
 

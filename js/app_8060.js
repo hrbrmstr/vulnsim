@@ -337,13 +337,13 @@ function startSim(error, unknown_d, known_d, vulndb_d, cve_d, u_e, k_e, v_e, c_e
 }
 
 d3.queue()
-  .defer(d3.json, "json/unknown.json")
-  .defer(d3.json, "json/all.json")
-  .defer(d3.json, "json/vulndb.json")
-  .defer(d3.json, "json/cve.json")
-  .defer(d3.json, "json/unknown_extract.json")
-  .defer(d3.json, "json/all_extract.json")
-  .defer(d3.json, "json/vulndb_extract.json")
-  .defer(d3.json, "json/cve_extract.json")
+  .defer(d3.json, "json/unknown_8060.json")
+  .defer(d3.json, "json/all_8060.json")
+  .defer(d3.json, "json/vulndb_8060.json")
+  .defer(d3.json, "json/cve_8060.json")
+  .defer(d3.json, "json/unknown_extract_8060.json")
+  .defer(d3.json, "json/all_extract_8060.json")
+  .defer(d3.json, "json/vulndb_extract_8060.json")
+  .defer(d3.json, "json/cve_extract_8060.json")
   .await(startSim);
 

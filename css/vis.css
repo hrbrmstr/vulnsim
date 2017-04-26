@@ -30,6 +30,13 @@ html, body, div, p, span, text {
   width: 205px;
 }
 
+#cve-sum, #known-sum, #vulndb-sum {
+  float:left;
+  margin-left:6px;
+  font-weight:500;
+  font-size:0.8em;
+}
+
 .cat-title {
   float:left;
   font-weight:700;
